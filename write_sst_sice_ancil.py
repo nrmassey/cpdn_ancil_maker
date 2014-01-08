@@ -48,7 +48,7 @@ if __name__ == "__main__":
 	# test
     sst_data = numpy.zeros([24, 1, 145, 192], 'f4')
     sice_data = numpy.zeros([24, 1, 145, 192], 'f4')
-    date = [1,12,1969]	
+    date = [1,12,1969]
     sst_fname = "sst_test"
     sice_fname = "sice_test"
     write_data_sst_sice(date, 30, 'N96', sst_data, sice_data, 2e20, sst_fname, sice_fname)

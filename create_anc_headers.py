@@ -39,7 +39,7 @@ def get_grid_spacing(grid):
         lat_space = -180.0 / (lat_size-1)
     else:
         lat_0 = 90
-        lat_space = 180 / (lat_size-1)
+        lat_space = 180.0 / (lat_size-1)
     lon_space = 360.0 / lon_size
     return lat_0, lon_0, lat_space, lon_space
 
