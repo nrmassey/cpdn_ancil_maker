@@ -132,7 +132,7 @@ def create_fixed_header(grid, t_steps, vert_coord_type, date, period, n_levs):
     else:
         fixhdr[22] = date[0]
     fixhdr[23] = 12 # noon
-    fixhdr[24:25] = 0
+    fixhdr[24:26] = 0
     fixhdr[26] = fixhdr[22]
     # calculate last time
     period_days = (t_steps-1) * period
@@ -144,12 +144,12 @@ def create_fixed_header(grid, t_steps, vert_coord_type, date, period, n_levs):
     else:
         fixhdr[29] = end_date[0]
     fixhdr[30] = 12 # noon
-    fixhdr[31:39] = 0
+    fixhdr[31:40] = 0
     fixhdr[33] = fixhdr[29]
     fixhdr[36] = period
     fixhdr[40] = period
     # these are levdepc, etc.
-    fixhdr[110:144] = 1
+    fixhdr[110:145] = 1
     fixhdr[99] = 257    # start of integer constants - always 257
     fixhdr[100] = 15    # length of integer constants - always 15
     fixhdr[104] = 272   # start of real constants - always 272
@@ -159,7 +159,7 @@ def create_fixed_header(grid, t_steps, vert_coord_type, date, period, n_levs):
     fixhdr[fix_idx] = -32768
     fixhdr[149] = 278   # start of lookup table / pp headers
     fixhdr[150] = 64    # first dimension of lookup table
-    fixhdr[151:152] = t_steps * n_levs    # number of records in lookup table
+    fixhdr[151:153] = t_steps * n_levs    # number of records in lookup table
     fixhdr[159] = sectorpos(64 * t_steps * n_levs + 278) + 1 # 64 records in header
     # get grid size
     lat, lon = get_grid_size(grid)
@@ -298,7 +298,7 @@ def create_ic_pert_header(grid, t_steps, n_levs, date):
             c = i * n_levs + l
             temp = [get_BLEV(l), get_BRLEV(l), get_BHLEV(l), get_BHRLEV(l)]
             field_hdr[25,c] = 9
-            field_hdr[51:54,c] = temp.view('i4')
+            field_hdr[51:55,c] = temp.view('i4')
     return field_hdr
 
 #############################################################################
@@ -315,5 +315,5 @@ def create_ozone_header(grid, t_steps, n_levs, date):
             c = i * n_levs + l
             temp = [get_BLEV(l), get_BRLEV(l), get_BHLEV(l), get_BHRLEV(l)]
             field_hdr[25,c] = 9
-            field_hdr[51:54,c] = temp.view('i4')
+            field_hdr[51:55,c] = temp.view('i4')
     return field_hdr
