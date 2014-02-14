@@ -21,18 +21,23 @@ def redate_ancil_or_dump(infile, outfile, year):
 	fix_hdr = read_fixed_header(fh)
 	pp_hdrs = read_pp_headers(fh, fix_hdr)
 	# redate fix_hdr
+	fix_hdr[27] = year + (fix_hdr[27] - fix_hdr[20])
 	fix_hdr[20] = year
-	fix_hdr[27] = year
 
-	# get the starting year
-	st_yr = pp_hdrs[0]
-	# year offset
-	yr_off = year - st_yr
+	# current_year
+	c_yr = year
 	c_pos = 0
+	added_year = False
 	# redate pp hdrs
 	for i in range(0, fix_hdr[151]):
-		pp_hdrs[0+c_pos] += yr_off
-		pp_hdrs[6+c_pos] += yr_off
+		# check if we should go to the next year
+		if pp_hdrs[1+c_pos] == 1 and not added_year:
+			c_yr += 1
+			added_year = True
+		if pp_hdrs[1+c_pos] == 2:	# can now add another year when we roll around to January
+			added_year = False
+		pp_hdrs[0+c_pos] = c_yr
+		pp_hdrs[6+c_pos] = c_yr
 		c_pos += fix_hdr[150]
 		
 	# read all the data in
