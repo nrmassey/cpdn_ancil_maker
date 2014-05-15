@@ -21,7 +21,6 @@ def redate_ancil_or_dump(infile, outfile, year):
 	fix_hdr = read_fixed_header(fh)
 	pp_hdrs = read_pp_headers(fh, fix_hdr)
 	# redate fix_hdr
-	fix_hdr[27] = year + (fix_hdr[27] - fix_hdr[20])
 	fix_hdr[20] = year
 
 	# current_year
@@ -39,7 +38,11 @@ def redate_ancil_or_dump(infile, outfile, year):
 		pp_hdrs[0+c_pos] = c_yr
 		pp_hdrs[6+c_pos] = c_yr
 		c_pos += fix_hdr[150]
-		
+
+	# get the last time
+	c_pos -= fix_hdr[150]
+	fix_hdr[27] = pp_hdrs[0+c_pos]
+	
 	# read all the data in
 	fh.seek(0)
 	all_data = fh.read()
