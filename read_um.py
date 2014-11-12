@@ -40,3 +40,19 @@ def read_pp_headers(fh, fix_hdr):
 	pp_hdrs.fromstring(pp_hdr_raw)
 	return pp_hdrs
 	
+#############################################################################
+
+def read_integer_constants(fh, fix_hdr):
+	# lookup start
+	l_start = fix_hdr[99]
+	# lookup and calculate size
+	l_dim = fix_hdr[100]
+	ic_size = l_dm * WORDSIZE
+	# seek to start of integer constants
+	fh.seek((l_start-1) * WORDSIZE)
+	# read in raw values
+	ic_hdr_raw = fh.read(ic_size)
+	# convert to numpy integers
+	ic_hdrs = array.array('i')
+	ic_hdrs.fromstring(ic_hdr_raw)
+	return ic_hdrs
