@@ -12,8 +12,14 @@ from l19_data import *
 
 #############################################################################
 
-def sectorpos(diskpos):
+def sectorsize():
     ss = 2048 / 8
+    return ss
+
+#############################################################################
+
+def sectorpos(diskpos):
+    ss = sectorsize()
     sector_pos = numpy.ceil(float(diskpos)/ss) * ss
     return sector_pos
 
@@ -27,7 +33,7 @@ def get_grid_size(grid):
     elif grid == "N48":
         return 73, 96
     elif grid == "HadGEM":
-        return 145, 192		# same as N96 but different ordering
+        return 145, 192     # same as N96 but different ordering
 
 #############################################################################
 
@@ -46,7 +52,7 @@ def get_grid_spacing(grid):
 #############################################################################
 
 def days_to_date(days):
-	# convert a number of days since 0000 to a date
+    # convert a number of days since 0000 to a date
     year = days / 360
     days -= year * 360
     month = days / 30
@@ -170,14 +176,14 @@ def create_fixed_header(grid, t_steps, vert_coord_type, date, period, n_levs):
 
 def create_field_header(grid, t_steps, n_levs, date, mv, period, lbfc, stash):
     # general header creation tool for the field data
-	# grid = N144 | N96 | N48 etc.
-	# t_steps = number of time steps
-	# n_levs = number of levels
-	# date = [year, month, day]
-	# mv = missing value
-	# period = number of days between time steps
-	# lbfc = field code
-	# stash = stash code of field
+    # grid = N144 | N96 | N48 etc.
+    # t_steps = number of time steps
+    # n_levs = number of levels
+    # date = [year, month, day]
+    # mv = missing value
+    # period = number of days between time steps
+    # lbfc = field code
+    # stash = stash code of field
 
     # make the integer array with values that don't change
     lookup = numpy.zeros([64], 'i4')
@@ -214,8 +220,8 @@ def create_field_header(grid, t_steps, n_levs, date, mv, period, lbfc, stash):
     lookup[41] = stash
 
     lookup[25] = 129        # vertical coordinate type
-#    lookup[28] = sectorpos(64 * t_steps * n_levs + 278)
-    lookup[28] = (64 * t_steps * n_levs + 278)
+    lookup[28] = sectorpos(64 * t_steps * n_levs + 278)
+#    lookup[28] = (64 * t_steps * n_levs + 278)
     # lbnrec - lblrec rounded up to nearest 2048 byte boundary
     lookup[29] = sectorpos(lookup[14])
 
@@ -263,6 +269,31 @@ def create_field_header(grid, t_steps, n_levs, date, mv, period, lbfc, stash):
             lk_fields[c,11] = dayd                  # LBDAY
             lk_fields[c,51] = l
     return lk_fields
+
+#############################################################################
+
+def fix_field_header_offsets(pp_hdrs, fixhdr, intc):
+    # skip past the headers
+    start_offset = fixhdr[159]-1
+    c = 0
+    surface_size = intc[5] * intc[6]
+    if intc[14] > 0:
+        n_vars = intc[14]
+    else:
+        n_vars = 1
+    for i in range(0, intc[2]):
+        for l in range(0, intc[7]):
+            for v in range(0, n_vars):
+                # current position in array if arranged contiguously
+                # calculate data offset
+                if (surface_size < sectorsize()):
+                    c_surface = sectorsize()
+                else:
+                    c_surface = surface_size
+                pp_hdrs[c,28] = start_offset + sectorpos(c_surface) * c
+                pp_hdrs[c,29] = sectorpos(surface_size)
+                pp_hdrs[c,39] = sectorpos(c_surface) * c
+                c += 1
 
 #############################################################################
 

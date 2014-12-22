@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+PATH_TO_OZONE=/Volumes/MacintoshHD2/shared/Ancils/HadAM3P_Hist/orig
+OUT_PATH=/Volumes/MacintoshHD2/shared/Ancils/HadAM3P_Hist
+
+# first file .79110 contains 1879->1919, we want to 1899->1911 and 1909->1921
+# so we have to concat last two years from the next file
+../subset_ancil.py -i $PATH_TO_OZONE"/"ozone.hist.360.79110 -o $OUT_PATH/ozone_hist_N48_1899_1911 -y 1899 -m 1 -n 156
+../subset_ancil.py -i $PATH_TO_OZONE"/"ozone.hist.360.79110 -o $OUT_PATH/ozone_hist_N48_1909_1919 -y 1909 -m 1 -n 132
+../subset_ancil.py -i $PATH_TO_OZONE"/"ozone.hist.360.b9110 -o $OUT_PATH/ozone_hist_N48_1920_1921 -y 1920 -m 1 -n 24
+../concat_ancil.py -i $OUT_PATH/ozone_hist_N48_1909_1919, $OUT_PATH/ozone_hist_N48_1920_1921 -o $OUT_PATH/ozone_hist_N48_1909_1921
+../regrid_ancil.py -i $OUT_PATH/ozone_hist_N48_1899_1911 -o $OUT_PATH/ozone_hist_N96_1899_1911 -l 1 -a 145
+../regrid_ancil.py -i $OUT_PATH/ozone_hist_N48_1909_1921 -o $OUT_PATH/ozone_hist_N96_1909_1921 -l 1 -a 145
+rm $OUT_PATH/*_N48_*
+
+# second file .b9110 contains 1919->1959, we create 4 files from this:
+# 1919->1931, 1929->1941, 1939->1951, 1949->1959.  We then concat 1960->1961 from the next file and regrid
+../subset_ancil.py -i $PATH_TO_OZONE"/"ozone.hist.360.b9110 -o $OUT_PATH/ozone_hist_N48_1919_1931 -y 1919 -m 1 -n 156
+../subset_ancil.py -i $PATH_TO_OZONE"/"ozone.hist.360.b9110 -o $OUT_PATH/ozone_hist_N48_1929_1941 -y 1929 -m 1 -n 156
+../subset_ancil.py -i $PATH_TO_OZONE"/"ozone.hist.360.b9110 -o $OUT_PATH/ozone_hist_N48_1939_1951 -y 1939 -m 1 -n 156
+../subset_ancil.py -i $PATH_TO_OZONE"/"ozone.hist.360.b9110 -o $OUT_PATH/ozone_hist_N48_1949_1959 -y 1949 -m 1 -n 132
+../subset_ancil.py -i $PATH_TO_OZONE"/"ozone.hist.360.f9110 -o $OUT_PATH/ozone_hist_N48_1960_1961 -y 1960 -m 1 -n 24
+../concat_ancil.py -i $OUT_PATH/ozone_hist_N48_1949_1959, $OUT_PATH/ozone_hist_N48_1960_1961 -o $OUT_PATH/ozone_hist_N48_1949_1961
+../regrid_ancil.py -i $OUT_PATH/ozone_hist_N48_1919_1931 -o $OUT_PATH/ozone_hist_N96_1919_1931 -l 1 -a 145
+../regrid_ancil.py -i $OUT_PATH/ozone_hist_N48_1929_1941 -o $OUT_PATH/ozone_hist_N96_1929_1941 -l 1 -a 145
+../regrid_ancil.py -i $OUT_PATH/ozone_hist_N48_1939_1951 -o $OUT_PATH/ozone_hist_N96_1939_1951 -l 1 -a 145
+../regrid_ancil.py -i $OUT_PATH/ozone_hist_N48_1949_1961 -o $OUT_PATH/ozone_hist_N96_1949_1961 -l 1 -a 145
+rm $OUT_PATH/*_N48_*
+
+# third file .f9110 contains 1959->1999, we create 4 files from this:
+# 1959->1971, 1969->1981, 1979->1991, 1989->1999.  We then concat 2000->2001 from the next file and regrid
+../subset_ancil.py -i $PATH_TO_OZONE"/"ozone.hist.360.f9110 -o $OUT_PATH/ozone_hist_N48_1959_1971 -y 1959 -m 1 -n 156
+../subset_ancil.py -i $PATH_TO_OZONE"/"ozone.hist.360.f9110 -o $OUT_PATH/ozone_hist_N48_1969_1981 -y 1969 -m 1 -n 156
+../subset_ancil.py -i $PATH_TO_OZONE"/"ozone.hist.360.f9110 -o $OUT_PATH/ozone_hist_N48_1979_1991 -y 1979 -m 1 -n 156
+../subset_ancil.py -i $PATH_TO_OZONE"/"ozone.hist.360.f9110 -o $OUT_PATH/ozone_hist_N48_1989_1999 -y 1989 -m 1 -n 132
+../subset_ancil.py -i $PATH_TO_OZONE"/"ozone.hist.360.j9110 -o $OUT_PATH/ozone_hist_N48_2000_2001 -y 2000 -m 1 -n 24
+../concat_ancil.py -i $OUT_PATH/ozone_hist_N48_1989_1999, $OUT_PATH/ozone_hist_N48_2000_2001 -o $OUT_PATH/ozone_hist_N48_1989_2001
+../regrid_ancil.py -i $OUT_PATH/ozone_hist_N48_1959_1971 -o $OUT_PATH/ozone_hist_N96_1959_1971 -l 1 -a 145
+../regrid_ancil.py -i $OUT_PATH/ozone_hist_N48_1969_1981 -o $OUT_PATH/ozone_hist_N96_1969_1981 -l 1 -a 145
+../regrid_ancil.py -i $OUT_PATH/ozone_hist_N48_1979_1991 -o $OUT_PATH/ozone_hist_N96_1979_1991 -l 1 -a 145
+../regrid_ancil.py -i $OUT_PATH/ozone_hist_N48_1989_2001 -o $OUT_PATH/ozone_hist_N96_1989_2001 -l 1 -a 145
+rm $OUT_PATH/*_N48_*
