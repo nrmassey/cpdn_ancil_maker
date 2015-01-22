@@ -4,25 +4,25 @@ OUT_PATH=/Volumes/MacintoshHD2/shared/Ancils/HadAM3P_Hist
 
 # first file .54c10 contains 1854/11->1904/12, we want to 1899->1911 and have to concat the last 7 years from the next file
 ../subset_ancil.py -i $PATH_TO_SO2DMS"/"so2dms.hist.360.54c10 -o $OUT_PATH/so2dms_hist_1899_1904 -y 1899 -m 1 -n 72
-../subset_ancil.py -i $PATH_TO_SO2DMS"/"so2dms.hist.360.a4c10 -o $OUT_PATH/so2dms_hist_1905_1911 -y 1905 -m 1 -n 84
-../concat_ancil.py -i $OUT_PATH/so2dms_hist_1899_1904, $OUT_PATH/so2dms_hist_1905_1911 -o $OUT_PATH/so2dms_hist_N96_1899_1911
-rm $OUT_PATH/so2dms_hist_1899_1904 $OUT_PATH/so2dms_hist_1905_1911
+../subset_ancil.py -i $PATH_TO_SO2DMS"/"so2dms.hist.360.a4c10 -o $OUT_PATH/so2dms_hist_1905_1910 -y 1905 -m 1 -n 72
+../concat_ancil.py -i $OUT_PATH/so2dms_hist_1899_1904, $OUT_PATH/so2dms_hist_1905_1910 -o $OUT_PATH/so2dms_hist_N96_1899_1910
+rm $OUT_PATH/so2dms_hist_1899_1904 $OUT_PATH/so2dms_hist_1905_1910
 
 # second file .a4c10 contains 1904/11->1954/12, we create 4 files from this:
 # 1909->1921, 1919->1931, 1929->1941, 1939->1951.
-../subset_ancil.py -i $PATH_TO_SO2DMS"/"so2dms.hist.360.a4c10 -o $OUT_PATH/so2dms_hist_N96_1909_1921 -y 1909 -m 1 -n 156
-../subset_ancil.py -i $PATH_TO_SO2DMS"/"so2dms.hist.360.a4c10 -o $OUT_PATH/so2dms_hist_N96_1919_1931 -y 1919 -m 1 -n 156
-../subset_ancil.py -i $PATH_TO_SO2DMS"/"so2dms.hist.360.a4c10 -o $OUT_PATH/so2dms_hist_N96_1929_1941 -y 1929 -m 1 -n 156
-../subset_ancil.py -i $PATH_TO_SO2DMS"/"so2dms.hist.360.a4c10 -o $OUT_PATH/so2dms_hist_N96_1939_1951 -y 1939 -m 1 -n 156
+../subset_ancil.py -i $PATH_TO_SO2DMS"/"so2dms.hist.360.a4c10 -o $OUT_PATH/so2dms_hist_N96_1909_1920 -y 1909 -m 1 -n 144
+../subset_ancil.py -i $PATH_TO_SO2DMS"/"so2dms.hist.360.a4c10 -o $OUT_PATH/so2dms_hist_N96_1919_1930 -y 1919 -m 1 -n 144
+../subset_ancil.py -i $PATH_TO_SO2DMS"/"so2dms.hist.360.a4c10 -o $OUT_PATH/so2dms_hist_N96_1929_1940 -y 1929 -m 1 -n 144
+../subset_ancil.py -i $PATH_TO_SO2DMS"/"so2dms.hist.360.a4c10 -o $OUT_PATH/so2dms_hist_N96_1939_1950 -y 1939 -m 1 -n 144
 
 # third file .f4c10 contains 1954/11->2004/12, we create 4 files from this:
 # 1949->1961, 1959->1971, 1969->1981, 1979->1991.  1989->2001
 # We need to concat 1949/01-> 1954/12 from the previous file, a4c10
 ../subset_ancil.py -i $PATH_TO_SO2DMS"/"so2dms.hist.360.a4c10 -o $OUT_PATH/so2dms_hist_N96_1949_1954 -y 1949 -m 1 -n 72
-../subset_ancil.py -i $PATH_TO_SO2DMS"/"so2dms.hist.360.f4c10 -o $OUT_PATH/so2dms_hist_N96_1955_1961 -y 1955 -m 1 -n 84
-../concat_ancil.py -i $OUT_PATH/so2dms_hist_N96_1949_1954 $OUT_PATH/so2dms_hist_N96_1955_1961 -o $OUT_PATH/so2dms_hist_N96_1949_1961
-rm $OUT_PATH/so2dms_hist_N96_1949_1954 $OUT_PATH/so2dms_hist_N96_1955_1961
-../subset_ancil.py -i $PATH_TO_SO2DMS"/"so2dms.hist.360.a4c10 -o $OUT_PATH/so2dms_hist_N96_1959_1971 -y 1959 -m 1 -n 156
-../subset_ancil.py -i $PATH_TO_SO2DMS"/"so2dms.hist.360.a4c10 -o $OUT_PATH/so2dms_hist_N96_1969_1981 -y 1969 -m 1 -n 156
-../subset_ancil.py -i $PATH_TO_SO2DMS"/"so2dms.hist.360.a4c10 -o $OUT_PATH/so2dms_hist_N96_1979_1991 -y 1979 -m 1 -n 156
-../subset_ancil.py -i $PATH_TO_SO2DMS"/"so2dms.hist.360.a4c10 -o $OUT_PATH/so2dms_hist_N96_1989_2001 -y 1989 -m 1 -n 156
+../subset_ancil.py -i $PATH_TO_SO2DMS"/"so2dms.hist.360.f4c10 -o $OUT_PATH/so2dms_hist_N96_1955_1960 -y 1955 -m 1 -n 72
+../concat_ancil.py -i $OUT_PATH/so2dms_hist_N96_1949_1954 $OUT_PATH/so2dms_hist_N96_1955_1960 -o $OUT_PATH/so2dms_hist_N96_1949_1960
+rm $OUT_PATH/so2dms_hist_N96_1949_1954 $OUT_PATH/so2dms_hist_N96_1955_1960
+../subset_ancil.py -i $PATH_TO_SO2DMS"/"so2dms.hist.360.f4c10 -o $OUT_PATH/so2dms_hist_N96_1959_1970 -y 1959 -m 1 -n 144
+../subset_ancil.py -i $PATH_TO_SO2DMS"/"so2dms.hist.360.f4c10 -o $OUT_PATH/so2dms_hist_N96_1969_1980 -y 1969 -m 1 -n 144
+../subset_ancil.py -i $PATH_TO_SO2DMS"/"so2dms.hist.360.f4c10 -o $OUT_PATH/so2dms_hist_N96_1979_1990 -y 1979 -m 1 -n 144
+../subset_ancil.py -i $PATH_TO_SO2DMS"/"so2dms.hist.360.f4c10 -o $OUT_PATH/so2dms_hist_N96_1989_2000 -y 1989 -m 1 -n 144

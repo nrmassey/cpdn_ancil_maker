@@ -328,8 +328,8 @@ def create_ic_pert_header(grid, t_steps, n_levs, date):
         for l in range(0, n_levs):
             c = i * n_levs + l
             temp = [get_BLEV(l), get_BRLEV(l), get_BHLEV(l), get_BHRLEV(l)]
-            field_hdr[25,c] = 9
-            field_hdr[51:55,c] = temp.view('i4')
+            field_hdr[c,25] = 9
+            field_hdr[c,51:55] = temp.view('i4')
     return field_hdr
 
 #############################################################################
@@ -345,6 +345,6 @@ def create_ozone_header(grid, t_steps, n_levs, date):
         for l in range(0, n_levs-1):
             c = i * n_levs + l
             temp = [get_BLEV(l), get_BRLEV(l), get_BHLEV(l), get_BHRLEV(l)]
-            field_hdr[25,c] = 9
-            field_hdr[51:55,c] = temp.view('i4')
+            field_hdr[c,25] = 9
+            field_hdr[c,51:55] = temp.view('i4')
     return field_hdr
