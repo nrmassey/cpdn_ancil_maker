@@ -120,9 +120,9 @@ def read_data(fh, fix_hdr, intc, pp_hdrs, start_idx=-1, n_fields=-1):
     for i in range(0, n_fields):
         # get where the field starts as an offset in the file
         c_hdr = pp_hdrs[i]
-        sector_size = c_hdr[29]
-        pos = start_loc + i * sector_size * WORDSIZE
-        fh.seek(pos, os.SEEK_SET)
+        surface_offset = c_hdr[28]
+        # seek and write
+        fh.seek(surface_offset * WORDSIZE, os.SEEK_SET)
         data_raw = fh.read(surface_size * WORDSIZE)
         data = array.array('f')
         data.fromstring(data_raw)

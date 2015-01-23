@@ -11,6 +11,7 @@
 import sys, os, getopt
 from read_um import *
 from write_ancil import write_ancil
+from create_anc_headers import fix_field_header_offsets
 import array
 
 #############################################################################
@@ -26,35 +27,24 @@ def redate_ancil_or_dump(infile, outfile, year, calendar):
         levc = read_level_constants(fh, fix_hdr)
     else:
         levc = numpy.zeros([0],'f')
+    # year offset
+    yr_off = year - fix_hdr[20]
     # redate fix_hdr
     fix_hdr[20] = year
-    # current_year
-    c_yr = year
-    c_pos = 0
-    added_year = False
-    lev_count = 0
     # redate pp hdrs
     for i in range(0, fix_hdr[151]):
-        # check if we should go to the next year
-        if pp_hdrs[i,1] == 1 and not added_year and lev_count == intc[7]:
-            c_yr += 1
-            added_year = True
-            lev_count = 0
-        if pp_hdrs[i,1] == 2:   # can now add another year when we roll around to January
-            added_year = False
-            lev_count += 1
-        pp_hdrs[i,0] = c_yr
-        pp_hdrs[i,6] = c_yr
+        # add the year offset
+        
+        pp_hdrs[i,0] += yr_off
+        pp_hdrs[i,6] += yr_off
+        
         # change the calendar if necessary - only applicable to start dumps
         if calendar == "360":
             pp_hdrs[i,12] = 2
         elif calendar == "365":
             pp_hdrs[i,12] = 1
 
-    # get the last time
-    c_pos -= fix_hdr[150]
-
-    fix_hdr[27] = pp_hdrs[c_pos,0]
+    fix_hdr[27] = pp_hdrs[-1,0]
     # change the calendar if necessary - only applicable to start dumps
     if calendar == "360":
         fix_hdr[7] = 2
@@ -62,9 +52,9 @@ def redate_ancil_or_dump(infile, outfile, year, calendar):
         fix_hdr[7] = 1
     
     # read all the data in
-    fh.seek(0)
     data = read_data(fh, fix_hdr, intc, pp_hdrs)
     fh.close()
+    fix_field_header_offsets(pp_hdrs, fix_hdr, intc)
     # write out the file
     write_ancil(outfile, fix_hdr, intc, realc, pp_hdrs, data, levc)
 
