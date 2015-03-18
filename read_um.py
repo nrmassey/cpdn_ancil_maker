@@ -100,10 +100,8 @@ def read_level_constants(fh, fix_hdr):
 def read_data(fh, fix_hdr, intc, pp_hdrs, start_idx=-1, n_fields=-1):
     if start_idx == -1:
         start_idx = 0
-    if intc[14] > 0:
-        n_vars = intc[14]
     if n_fields == -1:
-        n_fields = intc[2] * intc[7] * n_vars
+        n_fields = pp_hdrs.shape[0]
     # read the data as a numpy array
     # get the data size from the integer constants
     n_lon = intc[5]
@@ -113,11 +111,10 @@ def read_data(fh, fix_hdr, intc, pp_hdrs, start_idx=-1, n_fields=-1):
     # calculate the start of the data - the start index multiplied by the
     # sector size - we get the sector size from the pp hdr of the start idx
     sector_size = pp_hdrs[start_idx, 29]
-    start_loc = (fix_hdr[159]-1 + start_idx * sector_size) * WORDSIZE
     # loop over the pp headers and get the start location for each field
     # from the pp header
     all_data = array.array('f')
-    for i in range(0, n_fields):
+    for i in range(start_idx, start_idx + n_fields):
         # get where the field starts as an offset in the file
         c_hdr = pp_hdrs[i]
         surface_offset = c_hdr[28]

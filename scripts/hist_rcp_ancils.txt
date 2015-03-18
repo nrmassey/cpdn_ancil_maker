@@ -1,0 +1,97 @@
+200 year long atmospheric gas concentration ancil files for weather@home
+========================================================================
+
+Neil Massey, 17th March 2015
+============================
+
+In order to perform century long integrations of the weather@home system, I have produced
+a set of ancillary files that specify the atmospheric gas concentrations for so2 (two
+levels), dms and ozone.
+
+The time spans for these match that of CMIP5.  Between 1899/01 and 2004/12 observed values
+are used.  Between 2005/01 and 2100/12, values from three RCP scenarios (RCP2.6, 4.5 and
+8.6) are used.
+
+The origin of the files these are based on is Simon Tucker at the Met Office (for so2dms)
+and Scott Osprey in AOPP (for ozone).
+
+The files are arranged in 12 year overlapping files.
+
+A note about the so2dms files:
+==============================
+While producing these files I discovered that the dms values in the files provided by
+Simon Tucker were completely different to those values we have used before in w@h. 
+Previous w@h experiments use values that are a climatology taken from observations,
+whereas values in the files provided by ST use values from an integration of HadGEM. To
+keep things consistent with previous w@h experiments, Richard Jones and I took the
+decision to create the so2dms files with the dms values from the previous w@h experiments.
+ dms is defined as an annual cycle, and so the 12 dms fields just repeat throughout the
+historical and RCP scenarios.
+
+A note about the period 1999 to 2010:
+=====================================
+In CMIP5, historical forcings end at 2004, with RCP forcings taking over from 2005.  This
+also occurs in these forcing files.  For the files with dates 1999_2010, the first six
+years (1999 to 2004) have values from observations, whereas the next 6 years (2005 to
+2010) have values from the RCP scenario referenced in the file name
+
+Historical scenario:
+====================
+
+Historical ozone have the following file names:
+
+ozone_hist_N96_1899_1910.gz 
+ozone_hist_N96_1909_1920.gz
+ozone_hist_N96_1919_1930.gz
+ozone_hist_N96_1929_1940.gz
+ozone_hist_N96_1939_1950.gz
+ozone_hist_N96_1949_1960.gz
+ozone_hist_N96_1959_1970.gz
+ozone_hist_N96_1969_1980.gz
+ozone_hist_N96_1979_1990.gz
+ozone_hist_N96_1989_2000.gz
+
+Historical so2dms have the following file names:
+
+so2dms_hist_N96_1899_1910v2.gz
+so2dms_hist_N96_1909_1920v2.gz
+so2dms_hist_N96_1919_1930v2.gz
+so2dms_hist_N96_1929_1940v2.gz
+so2dms_hist_N96_1939_1950v2.gz
+so2dms_hist_N96_1949_1960v2.gz
+so2dms_hist_N96_1959_1970v2.gz
+so2dms_hist_N96_1969_1980v2.gz
+so2dms_hist_N96_1979_1990v2.gz
+so2dms_hist_N96_1989_2000v2.gz
+
+The v2 reflects that this is the second time I have made these files!
+(more on that above)
+
+RCP scenario:
+====================
+
+RCP ozone have the following file names:
+
+ozone_rcp26_N96_1999_2010.gz    ozone_rcp45_N96_1999_2010.gz    ozone_rcp85_N96_1999_2010.gz
+ozone_rcp26_N96_2009_2020.gz    ozone_rcp45_N96_2009_2020.gz    ozone_rcp85_N96_2009_2020.gz
+ozone_rcp26_N96_2019_2030.gz    ozone_rcp45_N96_2019_2030.gz    ozone_rcp85_N96_2019_2030.gz
+ozone_rcp26_N96_2029_2040.gz    ozone_rcp45_N96_2029_2040.gz    ozone_rcp85_N96_2029_2040.gz
+ozone_rcp26_N96_2039_2050.gz    ozone_rcp45_N96_2039_2050.gz    ozone_rcp85_N96_2039_2050.gz
+ozone_rcp26_N96_2049_2060.gz    ozone_rcp45_N96_2049_2060.gz    ozone_rcp85_N96_2049_2060.gz
+ozone_rcp26_N96_2059_2070.gz    ozone_rcp45_N96_2059_2070.gz    ozone_rcp85_N96_2059_2070.gz
+ozone_rcp26_N96_2069_2080.gz    ozone_rcp45_N96_2069_2080.gz    ozone_rcp85_N96_2069_2080.gz
+ozone_rcp26_N96_2079_2090.gz    ozone_rcp45_N96_2079_2090.gz    ozone_rcp85_N96_2079_2090.gz
+ozone_rcp26_N96_2089_2100.gz    ozone_rcp45_N96_2089_2100.gz    ozone_rcp85_N96_2089_2100.gz
+
+RCP so2dms have the following file names:
+
+so2dms_rcp26_N96_1999_2010.gz   so2dms_rcp45_N96_1999_2010.gz   so2dms_rcp85_N96_1999_2010.gz
+so2dms_rcp26_N96_2009_2020.gz   so2dms_rcp45_N96_2009_2020.gz   so2dms_rcp85_N96_2009_2020.gz
+so2dms_rcp26_N96_2019_2030.gz   so2dms_rcp45_N96_2019_2030.gz   so2dms_rcp85_N96_2019_2030.gz
+so2dms_rcp26_N96_2029_2040.gz   so2dms_rcp45_N96_2029_2040.gz   so2dms_rcp85_N96_2029_2040.gz
+so2dms_rcp26_N96_2039_2050.gz   so2dms_rcp45_N96_2039_2050.gz   so2dms_rcp85_N96_2039_2050.gz
+so2dms_rcp26_N96_2049_2060.gz   so2dms_rcp45_N96_2049_2060.gz   so2dms_rcp85_N96_2049_2060.gz
+so2dms_rcp26_N96_2059_2070.gz   so2dms_rcp45_N96_2059_2070.gz   so2dms_rcp85_N96_2059_2070.gz
+so2dms_rcp26_N96_2069_2080.gz   so2dms_rcp45_N96_2069_2080.gz   so2dms_rcp85_N96_2069_2080.gz
+so2dms_rcp26_N96_2079_2090.gz   so2dms_rcp45_N96_2079_2090.gz   so2dms_rcp85_N96_2079_2090.gz
+so2dms_rcp26_N96_2089_2100.gz   so2dms_rcp45_N96_2089_2100.gz   so2dms_rcp85_N96_2089_2100.gz

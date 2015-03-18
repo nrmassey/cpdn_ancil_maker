@@ -1,0 +1,33 @@
+#! /usr/bin/env bash
+PATH_TO_SO2=/Volumes/MacintoshHD2/shared/Ancils/SO2DMS
+OUT_PATH=$PATH_TO_SO2
+
+# subset first
+../subset_ancil.py -i $PATH_TO_SO2/so2dms_N96_1999_12_2002_02f -y 1999 -m 12 -n 12 -o $PATH_TO_SO2/so2dms_N96_1999_12_2000_11f
+../subset_ancil.py -i $PATH_TO_SO2/so2dms_N96_2000_12_2002_02f -y 2000 -m 12 -n 12 -o $PATH_TO_SO2/so2dms_N96_2000_12_2001_11f
+../subset_ancil.py -i $PATH_TO_SO2/so2dms_N96_2001_12_2003_02f -y 2001 -m 12 -n 12 -o $PATH_TO_SO2/so2dms_N96_2001_12_2002_11f
+../subset_ancil.py -i $PATH_TO_SO2/so2dms_N96_2002_12_2004_02f -y 2002 -m 12 -n 12 -o $PATH_TO_SO2/so2dms_N96_2002_12_2003_11f
+../subset_ancil.py -i $PATH_TO_SO2/so2dms_N96_2003_12_2005_02f -y 2003 -m 12 -n 12 -o $PATH_TO_SO2/so2dms_N96_2003_12_2004_11f
+../subset_ancil.py -i $PATH_TO_SO2/so2dms_N96_2004_12_2006_02f -y 2004 -m 12 -n 12 -o $PATH_TO_SO2/so2dms_N96_2004_12_2005_11f
+../subset_ancil.py -i $PATH_TO_SO2/so2dms_N96_2005_12_2007_02f -y 2005 -m 12 -n 12 -o $PATH_TO_SO2/so2dms_N96_2005_12_2006_11f
+../subset_ancil.py -i $PATH_TO_SO2/so2dms_N96_2006_12_2008_02f -y 2006 -m 12 -n 12 -o $PATH_TO_SO2/so2dms_N96_2006_12_2007_11f
+../subset_ancil.py -i $PATH_TO_SO2/so2dms_N96_2007_12_2009_02f -y 2007 -m 12 -n 12 -o $PATH_TO_SO2/so2dms_N96_2007_12_2008_11f
+../subset_ancil.py -i $PATH_TO_SO2/so2dms_N96_2008_12_2010_02f -y 2008 -m 12 -n 12 -o $PATH_TO_SO2/so2dms_N96_2008_12_2009_11f
+../subset_ancil.py -i $PATH_TO_SO2/so2dms_N96_2008_12_2010_02f -y 2009 -m 12 -n 3  -o $PATH_TO_SO2/so2dms_N96_2009_12_2010_02f
+
+# concat
+../concat_ancil.py -i $PATH_TO_SO2/so2dms_N96_1999_12_2000_11f,$PATH_TO_SO2/so2dms_N96_2000_12_2001_11f,$PATH_TO_SO2/so2dms_N96_2001_12_2002_11f,$PATH_TO_SO2/so2dms_N96_2002_12_2003_11f,$PATH_TO_SO2/so2dms_N96_2003_12_2004_11f,$PATH_TO_SO2/so2dms_N96_2004_12_2005_11f,$PATH_TO_SO2/so2dms_N96_2005_12_2006_11f,$PATH_TO_SO2/so2dms_N96_2006_12_2007_11f,$PATH_TO_SO2/so2dms_N96_2007_12_2008_11f,$PATH_TO_SO2/so2dms_N96_2008_12_2009_11f,$PATH_TO_SO2/so2dms_N96_2009_12_2010_02f -o $PATH_TO_SO2/so2dms_N96_1999_12_2010_02f
+
+# delete / clean up
+
+rm $PATH_TO_SO2/so2dms_N96_1999_12_2000_11f
+rm $PATH_TO_SO2/so2dms_N96_2000_12_2001_11f
+rm $PATH_TO_SO2/so2dms_N96_2001_12_2002_11f
+rm $PATH_TO_SO2/so2dms_N96_2002_12_2003_11f
+rm $PATH_TO_SO2/so2dms_N96_2003_12_2004_11f
+rm $PATH_TO_SO2/so2dms_N96_2004_12_2005_11f
+rm $PATH_TO_SO2/so2dms_N96_2005_12_2006_11f
+rm $PATH_TO_SO2/so2dms_N96_2006_12_2007_11f
+rm $PATH_TO_SO2/so2dms_N96_2007_12_2008_11f
+rm $PATH_TO_SO2/so2dms_N96_2008_12_2009_11f
+rm $PATH_TO_SO2/so2dms_N96_2009_12_2010_02f

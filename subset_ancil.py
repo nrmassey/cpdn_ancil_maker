@@ -14,6 +14,7 @@ from read_um import *
 from write_ancil import *
 import array
 from create_anc_headers import *
+from concat_ancil import fix_fixed_header
 
 #############################################################################
 
@@ -46,33 +47,6 @@ def get_time_frequency(fix_hdr):
 
 #############################################################################
 
-def fix_fixed_header(fixhdr, intc, year, month, n_months):
-    # alter the fixed header to reflect the new time period, etc.
-    # fix the start time
-    fixhdr[20] = year
-    fixhdr[21] = month
-    # fix the end time 
-    time_freq = get_time_frequency(fixhdr)
-    t_steps = time_freq / 30 * n_months
-    period_days = (t_steps-1) * 30
-    end_date = date_from_start_and_days([fixhdr[22],month,year], period_days)
-    fixhdr[27] = end_date[2]
-    fixhdr[28] = end_date[1]
-    fixhdr[29] = end_date[0]
-    fixhdr[33] = fixhdr[29]
-    # fix the data offsets
-    n_levs = intc[7]
-    if (intc[14] > 0):
-        n_vars = intc[14]
-    else:
-        n_vars = 1
-    fixhdr[151] = t_steps * n_levs * n_vars    # number of records in lookup table
-    fixhdr[159] = sectorpos(64 * t_steps * n_levs * n_vars + 278) + 1 # 64 records in header
-    fixhdr[160] = intc[5] * intc[6] * t_steps * n_levs * n_vars
-    return fixhdr
-
-#############################################################################
-
 def subset_ancil(infile, outfile, year, month, n_months):
     # subset an ancil based on the start year, start month and number of 
     # months
@@ -91,7 +65,7 @@ def subset_ancil(infile, outfile, year, month, n_months):
     start_idx = find_month_and_year_index(fixhdr, pp_hdrs, year, month)
     # time frequency between
     time_freq = get_time_frequency(fixhdr)
-    n_tsteps = time_freq / 30 * n_months
+    n_tsteps = 30 / time_freq * n_months
     # number of fields
     if (intc[14] > 0):
         n_vars = intc[14]
@@ -104,9 +78,10 @@ def subset_ancil(infile, outfile, year, month, n_months):
     data = numpy.array(data)
     sub_pp_hdrs = pp_hdrs[start_idx:start_idx+n_fields]
     
-    fix_fixed_header(fixhdr, intc, year, month, n_months)
+    fix_fixed_header(fixhdr, intc, sub_pp_hdrs, n_tsteps)
     intc[2] = n_tsteps
     fix_field_header_offsets(sub_pp_hdrs, fixhdr, intc)
+    fix_field_header_dates(sub_pp_hdrs, fixhdr, intc)
     
     write_ancil(outfile, fixhdr, intc, realc, sub_pp_hdrs, data, levc)
     fh.close()

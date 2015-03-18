@@ -294,6 +294,52 @@ def fix_field_header_offsets(pp_hdrs, fixhdr, intc):
                 pp_hdrs[c,29] = sectorpos(surface_size)
                 pp_hdrs[c,39] = sectorpos(c_surface) * c
                 c += 1
+    return pp_hdrs
+
+#############################################################################
+
+def fix_field_header_dates(pp_hdrs, fixhdr, intc):
+    # ensure that the data time is the same as the validity time
+    c=0
+    if intc[14] > 0:
+        n_vars = intc[14]
+    else:
+        n_vars = 1
+    for i in range(0, intc[2]):
+        for l in range(0, intc[7]):
+            for v in range(0, n_vars):
+                for d in range(0,6):
+                    pp_hdrs[c,d+6] = pp_hdrs[c,d]
+                # number of days
+                pp_hdrs[c,3] = 12
+                pp_hdrs[c,5] = pp_hdrs[c,1]*30+pp_hdrs[c,2]
+                pp_hdrs[c,9] = 12
+                pp_hdrs[c,11] = pp_hdrs[c,5]
+                c += 1
+    return pp_hdrs
+
+#############################################################################
+
+def fix_field_header_processing(pp_hdrs, fixhdr, intc):
+    c=0
+    if intc[14] > 0:
+        n_vars = intc[14]
+    else:
+        n_vars = 1
+    for i in range(0, intc[2]):
+        for l in range(0, intc[7]):
+            for v in range(0, n_vars):
+                pp_hdrs[c,12] = pp_hdrs[0+l,12]
+                pp_hdrs[c,13] = 0
+                pp_hdrs[c,24] = pp_hdrs[0+l,24]
+                pp_hdrs[c,30] = pp_hdrs[0+l,30]
+                pp_hdrs[c,31] = pp_hdrs[0+l,31]
+                pp_hdrs[c,32] = pp_hdrs[0+l,32]
+                pp_hdrs[c,39] = 0
+                pp_hdrs[c,51] = pp_hdrs[0+l,51]
+                pp_hdrs[c,63] = pp_hdrs[0+l,63]
+                c += 1
+    return pp_hdrs
 
 #############################################################################
 

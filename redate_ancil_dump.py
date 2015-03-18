@@ -16,7 +16,7 @@ import array
 
 #############################################################################
 
-def redate_ancil_or_dump(infile, outfile, year, calendar):
+def redate_ancil_or_dump(infile, outfile, year, calendar, periodic=False):
     # read the file as a binary file
     fh = open(infile, 'rb')
     fix_hdr = read_fixed_header(fh)
@@ -50,6 +50,9 @@ def redate_ancil_or_dump(infile, outfile, year, calendar):
         fix_hdr[7] = 2
     elif calendar == "365":
         fix_hdr[7] = 1
+    # if the file is to be periodic then change the fixed header
+    if periodic:
+        fix_hdr[9] = 2
     
     # read all the data in
     data = read_data(fh, fix_hdr, intc, pp_hdrs)
@@ -61,8 +64,9 @@ def redate_ancil_or_dump(infile, outfile, year, calendar):
 #############################################################################
 
 if __name__ == "__main__":
-    opts, args = getopt.getopt(sys.argv[1:], 'i:o:y:c:', ['input==', 'output==', 'year==', 'calendar=='])
+    opts, args = getopt.getopt(sys.argv[1:], 'i:o:y:c:p', ['input==', 'output==', 'year==', 'calendar==', 'periodic'])
     calendar = "-1"
+    periodic = False
     for opt, val in opts:
         if opt in ['--input', '-i']:
             infile = val
@@ -72,10 +76,12 @@ if __name__ == "__main__":
             date = val
         if opt in ['--calendar', '-c']:
             calendar = val
+        if opt in ['--periodic', '-p']:
+            periodic = True
     try:
         year = int(date)
     except:
         print "Year in format yyyy"
         sys.exit(0)
             
-    redate_ancil_or_dump(infile, outfile, year, calendar)
+    redate_ancil_or_dump(infile, outfile, year, calendar, periodic)

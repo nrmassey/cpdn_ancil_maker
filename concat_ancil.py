@@ -41,12 +41,18 @@ def parse_args(argv):
 
 def fix_fixed_header(fixhdr, intc, pp_hdrs, sum_tsteps):
     # alter the fixed header to reflect the new time period, etc.
+    # fix the start time
+    pp_hdr_first = pp_hdrs[0,:]
+    fixhdr[20] = pp_hdr_first[0]
+    fixhdr[21] = pp_hdr_first[1]
+    fixhdr[22] = pp_hdr_first[2]
+    fixhdr[26] = fixhdr[21]*30+fixhdr[22]
     # fix the end time 
     pp_hdr_last = pp_hdrs[-1,:]
     fixhdr[27] = pp_hdr_last[0]
     fixhdr[28] = pp_hdr_last[1]
     fixhdr[29] = pp_hdr_last[2]
-    fixhdr[33] = fixhdr[29]
+    fixhdr[33] = fixhdr[28]*30+fixhdr[29]
     # fix the data offsets
     if intc[14] > 0:
         n_vars = intc[14]
@@ -106,6 +112,8 @@ def concat_files(inputs, output):
     intc[2] = sum_tsteps
     # fix the offsets in the pp header
     fix_field_header_offsets(pp_hdrs_all, fixhdr, intc)
+    fix_field_header_dates(pp_hdrs_all, fixhdr, intc)
+    fix_field_header_processing(pp_hdrs_all, fixhdr, intc)
     # write out the ancil
     write_ancil(output, fixhdr, intc, realc, pp_hdrs_all, data_all, levc)
 
