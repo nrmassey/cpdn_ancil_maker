@@ -15,7 +15,7 @@ WORDSIZE=4
 
 def write_fixed_header(buf, fix_hdr):
     # pack the fix_hdr into the string buffer given in buf
-    FIX_HDR_LEN = 160
+    FIX_HDR_LEN = fix_hdr.shape[0]
     
     for i in range(0, FIX_HDR_LEN):
         c_pos = i * WORDSIZE

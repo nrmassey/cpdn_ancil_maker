@@ -19,10 +19,13 @@ def read_fixed_header(fh):
     # rewind to zero
     fh.seek(0)
     FIX_HDR_LEN = 162
+    FIX_HDR_SIZ = 256
     fix_hdr_raw = fh.read(FIX_HDR_LEN*WORDSIZE)
     fix_hdr = array.array('i')
     fix_hdr.fromstring(fix_hdr_raw)
-    return numpy.array(fix_hdr, 'i4')
+    ret_array = numpy.ones([FIX_HDR_SIZ], 'i4') * -32768
+    ret_array[:FIX_HDR_LEN] = numpy.array(fix_hdr, 'i4')
+    return ret_array
     
 #############################################################################
 
@@ -90,12 +93,31 @@ def read_level_constants(fh, fix_hdr):
     fh.seek((l_start-1) * WORDSIZE)
     # read in raw values
     levc_hdr_raw = fh.read(levc_size)
-    # convert to numpy integers
+    # convert to numpy floats
     levc_hdrs = array.array('f')
     levc_hdrs.fromstring(levc_hdr_raw)
     return numpy.array(levc_hdrs, 'f')
     
 #############################################################################
+
+def read_row_constants(fh, fix_hdr):
+    # lookup start
+    l_start = fix_hdr[114]
+    # dimension size and calculate total size
+    l_dim1 = fix_hdr[115]
+    l_dim2 = fix_hdr[116]
+    rowc_size = l_dim1 * l_dim2 * WORDSIZE
+    # seek to start of row constants
+    fh.seek((l_start-1) * WORDSIZE)
+    # read in raw values
+    rowc_hdr_raw = fh.read(rowc_size)
+    # convert to numpy floats
+    rowc_hdrs = array.array('f')
+    rowc_hdrs.fromstring(rowc_hdr_raw)
+    return numpy.array(rowc_hdrs, 'f')
+
+#############################################################################
+
 
 def read_data(fh, fix_hdr, intc, pp_hdrs, start_idx=-1, n_fields=-1):
     if start_idx == -1:

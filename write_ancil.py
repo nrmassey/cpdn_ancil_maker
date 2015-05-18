@@ -30,13 +30,17 @@ def writeu(fh, data, wordsize, pout=False):
 
 #############################################################################
 
-def write_ancil(filename, fixhdr, intc, realc, field_hdr, data, levc=numpy.zeros([0],'f')):
+def write_ancil(filename, fixhdr, intc, realc, field_hdr, data, 
+                levc=numpy.zeros([0],'f'),
+                rowc=numpy.zeros([0],'f')):
     # filename  = output filename   }
     # fixhdr    = fixed header      }
     # intc      = integer constants }- use functions in create_anc_headers.py
     # realc     = real constants    }- to create these
     # field_hdr = field header(s)   }
     # data      = numpy array of data - numpy array of data
+    # levc      = level dependent constants
+    # rowc      = row dependent constants
 
     # defaulting to 32 bit, change this to 8 for 64 bit
     word_size = 4
@@ -53,6 +57,9 @@ def write_ancil(filename, fixhdr, intc, realc, field_hdr, data, levc=numpy.zeros
     if (levc.shape[0] != 0):
         fh.seek((fixhdr[109]-1) * word_size, os.SEEK_SET)
         writeu(fh, levc, word_size)
+    if (rowc.shape[0] != 0):
+        fh.seek((fixhdr[114]-1) * word_size, os.SEEK_SET)
+        writeu(fh, rowc, word_size)
     fh.seek((fixhdr[149]-1) * word_size, os.SEEK_SET)
     writeu(fh, field_hdr, word_size)
 
