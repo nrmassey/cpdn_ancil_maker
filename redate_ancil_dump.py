@@ -13,10 +13,26 @@ from read_um import *
 from write_ancil import write_ancil
 from create_anc_headers import fix_field_header_offsets
 import array
+import numpy
 
 #############################################################################
 
-def redate_ancil_or_dump(infile, outfile, year, calendar, periodic=False, dump=False):
+def strip_dump_headers(pp_hdrs):
+    # strip the dump headers of the climate meaning
+    n_h = pp_hdrs.shape[0]
+    new_hdrs = []
+    for h in range(0, n_h):
+        # climate means have 128 in their LBPROC field
+        # climate mins have 4096
+        # climate max have 8192
+        if pp_hdrs[h,24] < 0:
+            new_hdrs.append(pp_hdrs[h])
+    nump_new_headers = numpy.array(new_hdrs)
+    return nump_new_headers
+
+#############################################################################
+
+def redate_ancil_or_dump(infile, outfile, year, calendar, periodic=False, dump=False, strip_cm=False):
     # read the file as a binary file
     fh = open(infile, 'rb')
     fix_hdr = read_fixed_header(fh)
@@ -39,6 +55,12 @@ def redate_ancil_or_dump(infile, outfile, year, calendar, periodic=False, dump=F
         fix_hdr[27] = year
     else:
         fix_hdr[27] += yr_off
+        
+    # strip the climate meaning?
+    if dump and strip_cm:
+        pp_hdrs = strip_dump_headers(pp_hdrs)
+        # reset the number of fields
+        fix_hdr[151] = pp_hdrs.shape[0]
         
     # redate pp hdrs
     for i in range(0, fix_hdr[151]):
@@ -82,9 +104,11 @@ def redate_ancil_or_dump(infile, outfile, year, calendar, periodic=False, dump=F
 #############################################################################
 
 if __name__ == "__main__":
-    opts, args = getopt.getopt(sys.argv[1:], 'i:o:y:c:pd', ['input==', 'output==', 'year==', 'calendar==', 'periodic', 'dump'])
+    opts, args = getopt.getopt(sys.argv[1:], 'i:o:y:c:pds', ['input==', 'output==', 'year==', 'calendar==', 'periodic', 'dump', 'strip'])
     calendar = "-1"
     periodic = False
+    dump = False
+    strip_cm = False
     for opt, val in opts:
         if opt in ['--input', '-i']:
             infile = val
@@ -98,9 +122,11 @@ if __name__ == "__main__":
             periodic = True
         if opt in ['--dump', '-d']:
             dump = True
+        if opt in ['--strip', '-s']:
+            strip_cm = True
     try:
         year = int(date)
     except:
         print "Year in format yyyy"
         sys.exit(0)
-    redate_ancil_or_dump(infile, outfile, year, calendar, periodic, dump)
+    redate_ancil_or_dump(infile, outfile, year, calendar, periodic, dump, strip_cm)

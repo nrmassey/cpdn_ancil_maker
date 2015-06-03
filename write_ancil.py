@@ -64,9 +64,6 @@ def write_ancil(filename, fixhdr, intc, realc, field_hdr, data,
     writeu(fh, field_hdr, word_size)
 
     # get the data size from the integer constants
-    n_lon = intc[5]
-    n_lat = intc[6]
-    surface_size = n_lon * n_lat
     current_surface = 0
     # number of headers
     n_h = field_hdr.shape[0]
@@ -74,15 +71,17 @@ def write_ancil(filename, fixhdr, intc, realc, field_hdr, data,
     data = data.flatten()
     c = 0
     for h in range(0, n_h):
-        # get data for this surface
-        data_s = data[current_surface:current_surface+surface_size]
         # get the offset to write the surface to in the file
         surface_offset = field_hdr[c,28]
+        # get the surface size
+        surface_size = field_hdr[c,14]
+        # get data for this surface
+        data_s = data[current_surface:current_surface+surface_size]
         # seek and write
         fh.seek(surface_offset * word_size, os.SEEK_SET)
         writeu(fh, data_s, word_size)
         fh.flush()
         # increment to next surface in data
-        current_surface += surface_size
+        current_surface += field_hdr[c,29]
         c += 1
     fh.close()

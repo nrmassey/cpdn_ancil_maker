@@ -275,20 +275,20 @@ def create_field_header(grid, t_steps, n_levs, date, mv, period, lbfc, stash):
 def fix_field_header_offsets(pp_hdrs, fixhdr, intc):
     # skip past the headers
     start_offset = fixhdr[159]-1
-    c = 0
-    surface_size = intc[5] * intc[6]
     n_h = pp_hdrs.shape[0]
+    c_surface = 0
+    surface_size = intc[5]*intc[6]
 
     for h in range(0, n_h):
         # current position in array if arranged contiguously
         # calculate data offset
-        if (surface_size < sectorsize()):
-            c_surface = sectorsize()
+        if (h == 0):
+            pp_hdrs[h,28] = start_offset
+            c_surface = 1
         else:
-            c_surface = surface_size
-        pp_hdrs[h,28] = start_offset + sectorpos(c_surface) * h
-        pp_hdrs[h,29] = sectorpos(surface_size)
-        pp_hdrs[h,39] = sectorpos(c_surface) * h + 1
+            c_surface = pp_hdrs[h-1,39] + pp_hdrs[h-1,14]
+            pp_hdrs[h,28] = long(pp_hdrs[h-1,28]) + pp_hdrs[h-1,29]
+        pp_hdrs[h,39] = c_surface
     return pp_hdrs
 
 #############################################################################

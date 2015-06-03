@@ -126,9 +126,6 @@ def read_data(fh, fix_hdr, intc, pp_hdrs, start_idx=-1, n_fields=-1):
         n_fields = pp_hdrs.shape[0]
     # read the data as a numpy array
     # get the data size from the integer constants
-    n_lon = intc[5]
-    n_lat = intc[6]
-    surface_size = n_lon * n_lat
     pp_hdr_size = fix_hdr[150]
     # calculate the start of the data - the start index multiplied by the
     # sector size - we get the sector size from the pp hdr of the start idx
@@ -140,6 +137,7 @@ def read_data(fh, fix_hdr, intc, pp_hdrs, start_idx=-1, n_fields=-1):
         # get where the field starts as an offset in the file
         c_hdr = pp_hdrs[i]
         surface_offset = c_hdr[28]
+        surface_size = c_hdr[29]
         # seek and write
         fh.seek(surface_offset * WORDSIZE, os.SEEK_SET)
         data_raw = fh.read(surface_size * WORDSIZE)
