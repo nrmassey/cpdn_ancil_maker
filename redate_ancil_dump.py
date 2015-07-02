@@ -50,10 +50,17 @@ def redate_ancil_or_dump(infile, outfile, year, calendar, periodic=False, dump=F
     # year offset
     yr_off = year - fix_hdr[20]
     # redate fix_hdr
-    fix_hdr[20] = year
     if dump:
+        # set the fix header to match the ancil reference time (1840/12/01)
+        fix_hdr[20] = 1840
+        fix_hdr[21] = 12
+        fix_hdr[22] = 1
+        fix_hdr[23:26] = 0
+        fix_hdr[26] = 331
+        
         fix_hdr[27] = year
     else:
+        fix_hdr[20] = year
         fix_hdr[27] += yr_off
         
     # strip the climate meaning?
@@ -66,8 +73,9 @@ def redate_ancil_or_dump(infile, outfile, year, calendar, periodic=False, dump=F
     for i in range(0, fix_hdr[151]):
         # add the year offset
         if dump:
-            pp_hdrs[i,0] = year
-            pp_hdrs[i,6] = year
+            if year != 0:
+                pp_hdrs[i,0] = year
+                pp_hdrs[i,6] = year
         else:
             pp_hdrs[i,0] += yr_off
             pp_hdrs[i,6] += yr_off
