@@ -71,8 +71,8 @@ def subset_ancil(infile, outfile, year, month, n_months):
         n_vars = intc[14]
     else:
         n_vars = 1
-    n_fields = n_tsteps * intc[7] * n_vars    # 7 is number of levels in each field
-                                                # 14 is number of field types
+    n_fields = n_tsteps * intc[7] * n_vars     # 7 is number of levels in each field
+                                               # 14 is number of field types
     # read in the data for the subset
     data = read_data(fh, fixhdr, intc, pp_hdrs, start_idx, n_fields)
     data = numpy.array(data)

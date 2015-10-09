@@ -5,58 +5,58 @@ OUT_PATH=/Volumes/MacintoshHD2/shared/Ancils/HadAM3P_RCP/RCP45
 
 # create the first file. This is the subset of 1999->2004 from the historical, plus
 # the subset of 2005->2010 from the RCP45 file
-# ../subset_ancil.py -i $PATH_TO_HIST"/ozone.hist.360.j9110" -o ozone_hist_temp -y 1999 -m 1 -n 72
-# ../subset_ancil.py -i $PATH_TO_OZONE"/ozone.rcp45.360.j9110" -o ozone_rcp_temp -y 2005 -m 1 -n 72
-# ../concat_ancil.py -i ozone_hist_temp,ozone_rcp_temp -o ozone_temp
-# ../regrid_ancil.py -i ozone_temp -o $OUT_PATH/ozone_rcp45_N96_1999_2010 -l 1 -a 145
-# rm ozone_hist_temp
-# rm ozone_rcp_temp
-# rm ozone_temp
+../subset_ancil.py -i $PATH_TO_HIST"/ozone.hist.360.j9110" -o ozone_hist_temp -y 1999 -m 1 -n 72
+../subset_ancil.py -i $PATH_TO_OZONE"/ozone.rcp45.360.j9110" -o ozone_rcp_temp -y 2005 -m 1 -n 72
+../concat_ancil.py -i ozone_hist_temp,ozone_rcp_temp -o ozone_temp
+../regrid_ancil.py -i ozone_temp -o $OUT_PATH/ozone_rcp45_N96_1999_2010v2 -l 1 -a 145
+rm ozone_hist_temp
+rm ozone_rcp_temp
+rm ozone_temp
 # 
 # # create the second file. This is 2009->2020 from the RCP45 file
-# ../subset_ancil.py -i $PATH_TO_OZONE"/ozone.rcp45.360.j9110" -o ozone_rcp_temp -y 2009 -m 1 -n 144
-# ../regrid_ancil.py -i ozone_rcp_temp -o $OUT_PATH/ozone_rcp45_N96_2009_2020 -l 1 -a 145
-# rm ozone_rcp_temp
+../subset_ancil.py -i $PATH_TO_OZONE"/ozone.rcp45.360.j9110" -o ozone_rcp_temp -y 2009 -m 1 -n 144
+../regrid_ancil.py -i ozone_rcp_temp -o $OUT_PATH/ozone_rcp45_N96_2009_2020v2 -l 1 -a 145
+rm ozone_rcp_temp
 # 
 # # create the third file. This is 2019->2030 from the RCP45 file
-# ../subset_ancil.py -i $PATH_TO_OZONE"/ozone.rcp45.360.j9110" -o ozone_rcp_temp -y 2019 -m 1 -n 144
-# ../regrid_ancil.py -i ozone_rcp_temp -o $OUT_PATH/ozone_rcp45_N96_2019_2030 -l 1 -a 145
-# rm ozone_rcp_temp
+../subset_ancil.py -i $PATH_TO_OZONE"/ozone.rcp45.360.j9110" -o ozone_rcp_temp -y 2019 -m 1 -n 144
+../regrid_ancil.py -i ozone_rcp_temp -o $OUT_PATH/ozone_rcp45_N96_2019_2030v2 -l 1 -a 145
+rm ozone_rcp_temp
 # 
 # # create the fourth file. This is 2029->2039 from the j9110 RCP45 file and 2040 from the
-# ../subset_ancil.py -i $PATH_TO_OZONE"/ozone.rcp45.360.j9110" -o ozone_rcp1_temp -y 2029 -m 1 -n 132
-# ../subset_ancil.py -i $PATH_TO_OZONE"/ozone.rcp45.360.n9110" -o ozone_rcp2_temp -y 2040 -m 1 -n 12
-# ../concat_ancil.py -i ozone_rcp1_temp, ozone_rcp2_temp -o ozone_rcp_temp
-# ../regrid_ancil.py -i ozone_rcp_temp -o $OUT_PATH/ozone_rcp45_N96_2029_2040 -l 1 -a 145
-# rm ozone_rcp1_temp
-# rm ozone_rcp2_temp
-# rm ozone_rcp_temp
+../subset_ancil.py -i $PATH_TO_OZONE"/ozone.rcp45.360.j9110" -o ozone_rcp1_temp -y 2029 -m 1 -n 132
+../subset_ancil.py -i $PATH_TO_OZONE"/ozone.rcp45.360.n9110" -o ozone_rcp2_temp -y 2040 -m 1 -n 12
+../concat_ancil.py -i ozone_rcp1_temp, ozone_rcp2_temp -o ozone_rcp_temp
+../regrid_ancil.py -i ozone_rcp_temp -o $OUT_PATH/ozone_rcp45_N96_2029_2040v2 -l 1 -a 145
+rm ozone_rcp1_temp
+rm ozone_rcp2_temp
+rm ozone_rcp_temp
 # 
 # # create the fifth file. This is 2039->2050 from the n9110 RCP45 file
-# ../subset_ancil.py -i $PATH_TO_OZONE"/ozone.rcp45.360.n9110" -o ozone_rcp_temp -y 2039 -m 1 -n 144
-# ../regrid_ancil.py -i ozone_rcp_temp -o $OUT_PATH/ozone_rcp45_N96_2039_2050 -l 1 -a 145
-# rm ozone_rcp_temp
+../subset_ancil.py -i $PATH_TO_OZONE"/ozone.rcp45.360.n9110" -o ozone_rcp_temp -y 2039 -m 1 -n 144
+../regrid_ancil.py -i ozone_rcp_temp -o $OUT_PATH/ozone_rcp45_N96_2039_2050v2 -l 1 -a 145
+rm ozone_rcp_temp
 # 
 # # create the sixth file. This is 2049->2060 from the n9110 RCP45 file
-# ../subset_ancil.py -i $PATH_TO_OZONE"/ozone.rcp45.360.n9110" -o ozone_rcp_temp -y 2049 -m 1 -n 144
-# ../regrid_ancil.py -i ozone_rcp_temp -o $OUT_PATH/ozone_rcp45_N96_2049_2060 -l 1 -a 145
-# rm ozone_rcp_temp
+../subset_ancil.py -i $PATH_TO_OZONE"/ozone.rcp45.360.n9110" -o ozone_rcp_temp -y 2049 -m 1 -n 144
+../regrid_ancil.py -i ozone_rcp_temp -o $OUT_PATH/ozone_rcp45_N96_2049_2060v2 -l 1 -a 145
+rm ozone_rcp_temp
 # 
 # # create the seventh file. This is 2059->2070 from the n9110 RCP45 file
-# ../subset_ancil.py -i $PATH_TO_OZONE"/ozone.rcp45.360.n9110" -o ozone_rcp_temp -y 2059 -m 1 -n 144
-# ../regrid_ancil.py -i ozone_rcp_temp -o $OUT_PATH/ozone_rcp45_N96_2059_2070 -l 1 -a 145
-# rm ozone_rcp_temp
+../subset_ancil.py -i $PATH_TO_OZONE"/ozone.rcp45.360.n9110" -o ozone_rcp_temp -y 2059 -m 1 -n 144
+../regrid_ancil.py -i ozone_rcp_temp -o $OUT_PATH/ozone_rcp45_N96_2059_2070v2 -l 1 -a 145
+rm ozone_rcp_temp
 
 # create the eight file. This is 2069->2080 from the 2069->2099 RCP45 file
-#../subset_ancil.py -i $PATH_TO_OZONE"/ozone.rcp45.360.2069_2099" -o $OUT_PATH/ozone_rcp45_N96_2069_2080 -y 2069 -m 1 -n 144
+../subset_ancil.py -i $PATH_TO_OZONE"/ozone.rcp45.360.2069_2099" -o $OUT_PATH/ozone_rcp45_N96_2069_2080v2 -y 2069 -m 1 -n 144
 
 # create the ninth file. This is 2079->2090 from the 2069->2099 RCP45 file
-#../subset_ancil.py -i $PATH_TO_OZONE"/ozone.rcp45.360.2069_2099" -o $OUT_PATH/ozone_rcp45_N96_2079_2090 -y 2079 -m 1 -n 144
+../subset_ancil.py -i $PATH_TO_OZONE"/ozone.rcp45.360.2069_2099" -o $OUT_PATH/ozone_rcp45_N96_2079_2090v2 -y 2079 -m 1 -n 144
 
 # create the tenth file. This is 2089->2099 from the 2069->2099 RCP45 file plus the 2099 year looped once
 ../subset_ancil.py -i $PATH_TO_OZONE"/ozone.rcp45.360.2069_2099" -o ozone_rcp1_temp -y 2089 -m 1 -n 132
 ../subset_ancil.py -i $PATH_TO_OZONE"/ozone.rcp45.360.2069_2099" -o ozone_rcp2_temp -y 2099 -m 1 -n 12
 ../redate_ancil_dump.py -i ozone_rcp2_temp -o ozone_rcp3_temp -y 2100
-../concat_ancil.py -i ozone_rcp1_temp,ozone_rcp3_temp -o $OUT_PATH/ozone_rcp45_N96_2089_2100
+../concat_ancil.py -i ozone_rcp1_temp,ozone_rcp3_temp -o $OUT_PATH/ozone_rcp45_N96_2089_2100v2
 rm ozone_rcp1_temp
 rm ozone_rcp2_temp

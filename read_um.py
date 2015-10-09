@@ -118,7 +118,6 @@ def read_row_constants(fh, fix_hdr):
 
 #############################################################################
 
-
 def read_data(fh, fix_hdr, intc, pp_hdrs, start_idx=-1, n_fields=-1):
     if start_idx == -1:
         start_idx = 0
@@ -138,10 +137,11 @@ def read_data(fh, fix_hdr, intc, pp_hdrs, start_idx=-1, n_fields=-1):
         c_hdr = pp_hdrs[i]
         surface_offset = c_hdr[28]
         surface_size = c_hdr[29]
+        data_size = c_hdr[14]
         # seek and write
         fh.seek(surface_offset * WORDSIZE, os.SEEK_SET)
         data_raw = fh.read(surface_size * WORDSIZE)
         data = array.array('f')
         data.fromstring(data_raw)
-        all_data.extend(data)
+        all_data.extend(data[0:c_hdr[14]])
     return numpy.array(all_data, 'f')

@@ -82,6 +82,6 @@ def write_ancil(filename, fixhdr, intc, realc, field_hdr, data,
         writeu(fh, data_s, word_size)
         fh.flush()
         # increment to next surface in data
-        current_surface += field_hdr[c,29]
+        current_surface += surface_size
         c += 1
     fh.close()

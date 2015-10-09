@@ -6,6 +6,6 @@ OUT_PATH=/Volumes/MacintoshHD2/shared/Ancils/HadAM3P_PreInd
 # we then need to regrid the ozone and redate to 0000
 ../subset_ancil.py -i $PATH_TO_OZONE"/"ozone.hist.360.79110 -o $OUT_PATH/ozone_preind_N48_1879 -y 1879 -m 1 -n 12
 ../regrid_ancil.py -i $OUT_PATH/ozone_preind_N48_1879 -o $OUT_PATH/ozone_preind_N96_1879 -l 1 -a 145
-../redate_ancil_dump.py -i $OUT_PATH/ozone_preind_N96_1879 -o $OUT_PATH/ozone_preind_N96_1879_0P -y 0000
+../redate_ancil_dump.py -i $OUT_PATH/ozone_preind_N96_1879 -o $OUT_PATH/ozone_preind_N96_1879_0Pv2 -y 0000
 rm $OUT_PATH/*_N48_*
 rm $OUT_PATH/ozone_preind_N96_1879

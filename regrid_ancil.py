@@ -106,6 +106,8 @@ def fix_field_headers(pp_hdrs, fixhdr, intc, realc):
                 # fix the number of points per row and number of rows
                 pp_hdrs[c,17] = intc[6]
                 pp_hdrs[c,18] = intc[5]
+                # fix the length of the record - the product of the two above numbers
+                pp_hdrs[c,14] = intc[6]*intc[5]
                 # fix the latitude / longitude interval
                 pp_hdrs[c,59] = numpy.array([new_lat_sp], 'f').view('i4')[0]
                 pp_hdrs[c,61] = numpy.array([new_lon_sp], 'f').view('i4')[0]
