@@ -19,21 +19,21 @@ import glob
 # Returns True if first of the month, else false.  
 #
 def checkdate(infile):
-	# read the file as a binary file
-	fh = gzip.open(infile, 'rb')
-	fix_hdr = read_fixed_header(fh)
-	pp_hdrs = read_pp_headers(fh, fix_hdr)
-	# check date in fix_hdr
-	year = fix_hdr[27]
-	mon = fix_hdr[28]
-	day = fix_hdr[29]
-#	print 'date of ancil/dump file'
-#	print year,mon,day
-	fh.close()	
-	if day==1:
-		return True
-	else: 
-		return False
+    # read the file as a binary file
+    fh = gzip.open(infile, 'rb')
+    fix_hdr = read_fixed_header(fh)
+    pp_hdrs = read_pp_headers(fh, fix_hdr)
+    # check date in fix_hdr
+    year = fix_hdr[27]
+    mon = fix_hdr[28]
+    day = fix_hdr[29]
+#   print 'date of ancil/dump file'
+#   print year,mon,day
+    fh.close()  
+    if day==1:
+        return True
+    else: 
+        return False
 
 #############################################################################
 
@@ -41,21 +41,21 @@ def checkdate(infile):
 # It writes out another list, of "good" files with only the dumps that start on the first of the month
 #
 if __name__ == "__main__":
-	# Original list of dump files
-	dump_list="start_dumps.txt"
-	#Location of dump files 
-	ancil_start='/storage/download/hadam3p/ancil/'
-	# List of good dump files
-	goodname='good_'+os.path.basename(dump_list)
-	fgood=open(goodname,'w')
+    # Original list of dump files
+    dump_list="start_dumps.txt"
+    #Location of dump files 
+    ancil_start='/storage/download/hadam3p/ancil/'
+    # List of good dump files
+    goodname='good_'+os.path.basename(dump_list)
+    fgood=open(goodname,'w')
 
-	# Loop over dump files
-	for line in open(dump_list):
-		atmos,region=line.split()
-		fatmos=ancil_start+atmos.strip(' ,')
-		fregion=ancil_start+region.strip(' ,')
-		if checkdate(fatmos) and checkdate(fregion):
-			fgood.write(line)
-		else:
-			print 'bad file:',atmos.strip(' ,'),region.strip(' ,')
-	fgood.close()
+    # Loop over dump files
+    for line in open(dump_list):
+        atmos,region=line.split()
+        fatmos=ancil_start+atmos.strip(' ,')
+        fregion=ancil_start+region.strip(' ,')
+        if checkdate(fatmos) and checkdate(fregion):
+            fgood.write(line)
+        else:
+            print 'bad file:',atmos.strip(' ,'),region.strip(' ,')
+    fgood.close()
